@@ -75,3 +75,32 @@ kernel_params.each do |kp|
     action :create
   end
   
+  %w[ /sdp /usr/java /sdp/sw /sdp/oracle ].each do |path|
+    directory path do
+      owner 'root'
+      group 'root'
+      mode '0755'
+    end
+  end
+
+  lvm_physical_volume '/dev/xvdh'
+
+  lvm_volume_group 'vg00' do
+    physical_volumes ['/dev/xvdh']
+    wipe_signatures true
+    
+    logical_volume 'jdk' do
+        size        '10k'
+        filesystem  'xfs'
+        mount_point location: '/usr/java', options: 'noatime 0 0'
+
+    end
+
+    logical_volume 'sw' do
+        size        '10k'
+        filesystem  'xfs'
+        mount_point location: '/sdp/sw', options: 'noatime 0 0'
+    end
+
+
+end

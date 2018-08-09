@@ -6,3 +6,4 @@ metadata
 # Dependency cookbooks
 
 cookbook 'line', '~> 2.0.2'
+cookbook 'lvm', '~> 4.3.0'
