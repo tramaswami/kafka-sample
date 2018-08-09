@@ -77,30 +77,39 @@ kernel_params.each do |kp|
   
   %w[ /sdp /usr/java /sdp/sw /sdp/oracle ].each do |path|
     directory path do
-      owner 'root'
-      group 'root'
+      owner 'connect'
+      group 'connect'
       mode '0755'
     end
   end
 
-  lvm_physical_volume '/dev/xvdh'
+  lvm_physical_volume '/dev/sdb'
 
-  lvm_volume_group 'vg00' do
-    physical_volumes ['/dev/xvdh']
+  lvm_volume_group 'appvg' do
+    physical_volumes ['/dev/sdb']
     wipe_signatures true
     
     logical_volume 'jdk' do
-        size        '10k'
+        size        '100M'
         filesystem  'xfs'
-        mount_point location: '/usr/java', options: 'noatime 0 0'
+        mount_point location: '/usr/java', options: 'noatime'
 
     end
 
     logical_volume 'sw' do
-        size        '10k'
+        size        '100M'
         filesystem  'xfs'
-        mount_point location: '/sdp/sw', options: 'noatime 0 0'
+        mount_point location: '/sdp/sw', options: 'noatime'
     end
 
+    logical_volume 'log' do
+        size        '100M'
+        filesystem  'xfs'
+        mount_point location: '/sdp/log', options: 'noatime'
+    end
 
 end
+
+# rpm_package 'package_name' do
+#   action :install
+# end

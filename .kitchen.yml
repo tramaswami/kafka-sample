@@ -1,6 +1,8 @@
 ---
 driver:
   name: vagrant
+  attached_disks:
+  - ["sdb.vmdk", "100", "1", "0", "hdd"]
 
 provisioner:
   name: chef_zero
