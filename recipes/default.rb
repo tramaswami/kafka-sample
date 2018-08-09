@@ -110,6 +110,28 @@ kernel_params.each do |kp|
 
 end
 
-# rpm_package 'package_name' do
-#   action :install
-# end
+remote_file '/sdp/sw/unrar-5.60-1.0.cf.rhel7.x86_64.rpm' do
+  source 'http://www.city-fan.org/ftp/contrib/yum-repo/rhel7/x86_64/unrar-5.60-1.0.cf.rhel7.x86_64.rpm'
+  owner 'connect'
+  group 'connect'
+  mode '0755'
+  action :create
+end
+
+
+rpm_package '/sdp/sw/unrar-5.60-1.0.cf.rhel7.x86_64.rpm' do
+  action :install
+end
+
+link '/tmp/confluent-4.1.1' do
+    to '/tmp/confluent'
+    link_type :symbolic
+end
+
+file "/etc/systemd/system/conect.service" do
+    owner 'connect'
+    group 'connect'
+    mode 0755
+    content ::File.open("/sdp/sw/config").read
+    action :create
+  end
