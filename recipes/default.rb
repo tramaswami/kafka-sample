@@ -135,3 +135,9 @@ file "/etc/systemd/system/conect.service" do
     content ::File.open("/sdp/sw/config").read
     action :create
   end
+
+
+# service 'connect' do
+#   action [ :enable, :start ]
+# end
+  
