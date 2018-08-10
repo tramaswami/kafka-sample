@@ -9,16 +9,16 @@ hostname 'kafka-machine'
 ##STEP 2
 ENV['http_proxy'] = ''
 
-$packs = ['lvm2','nc','sysstat','lsof']
-$packs.each do |pack|
+packs = ['lvm2','nc','sysstat','lsof']
+packs.each do |pack|
     package "#{pack}" do
       action :upgrade
     end
   end
 ##STEP 3 
-$lines = ['connect soft nofile 99000','connect hard nofile 99000','connect soft nproc 99000','connect hard nproc 99000']
+lines = ['connect soft nofile 99000','connect hard nofile 99000','connect soft nproc 99000','connect hard nproc 99000']
 
-$lines.each do |line| 
+lines.each do |line| 
 
     file = Chef::Util::FileEdit.new('/etc/security/limits.conf')
     file.insert_line_if_no_match(/#{line}/, line)
@@ -26,9 +26,9 @@ $lines.each do |line|
 
 end
 
-$lines2 = ['connect soft nproc 99000','connect hard nproc 99000']
+lines2 = ['connect soft nproc 99000','connect hard nproc 99000']
 
-$lines2.each do |line| 
+lines2.each do |line| 
 
     file = Chef::Util::FileEdit.new('/etc/security/limits.d/20-nproc.conf')
     file.insert_line_if_no_match(/#{line}/, line)
